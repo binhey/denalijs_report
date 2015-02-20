@@ -1,0 +1,238 @@
+<div class="page page-table">
+    <section class="panel panel-default table-dynamic">
+        <div class="panel-heading">
+            <strong><span class="glyphicon glyphicon-th"></span> ReqList Activity by Recruiters Report</strong>
+        </div>
+        <div class="panel-body">
+            <div class="row container">
+                <form class="form-inline" role="form" data-ng-submit="search(searchKeys)">
+                    <div class="form-group">
+                        <select class="form-control input-sm" data-ng-model="searchKeys.recruiter" data-ng-options="status.name for status in RecruiterList">
+                        </select>
+                    </div>&emsp;
+                    <div class="form-group">
+                        <select class="form-control input-sm" data-ng-model="searchKeys.sales" data-ng-options="status.name for status in SalesList">
+                        </select>
+                    </div>&emsp;
+                    <div class="form-group">
+                        <input type="text"
+                               class="form-control ui-datepicker input-sm"
+                               datepicker-popup="MM/dd/yyyy"
+                               ng-model="searchKeys.begin_date"
+                               placeholder="Start Date"
+                               close-text="Close">
+                    </div>&emsp;
+                    <div class="form-group">
+                        <input type="text"
+                               class="form-control ui-datepicker input-sm"
+                               datepicker-popup="MM/dd/yyyy"
+                               ng-model="searchKeys.end_date"
+                               placeholder="End Date"
+                               close-text="Close">
+                    </div>&emsp;
+                    <button type="submit" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-search"></span></button>
+                </form>
+            </div>
+            <div class="row" data-ng-controller='TableCtrl'>
+                <div class="table-filters">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <a href="#/reports/export" class="btn btn-sm btn-w-md btn-gap-v btn-primary active_button">Export</a>
+                        </div>
+                        <div class="col-sm-offset-8 col-sm-4">
+                            <form>
+                                <input type="text"
+                                       placeholder="search"
+                                       class="form-control input-sm"
+                                       data-ng-model="filterKeywords"
+                                       data-ng-keyup="filterData()">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered table-striped table-responsive table-condensed" my-table-data="reportData">
+                    <thead>
+                    <tr class="bg-dark">
+                        <th><div class="th">
+                            Recruiter
+                        <span class="glyphicon glyphicon-chevron-up"
+                              data-ng-click=" order('AssignedTo_name')"
+                              data-ng-class="{active: row == 'AssignedTo_name'}"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                              data-ng-click=" order('-AssignedTo_name')"
+                              data-ng-class="{active: row == '-AssignedTo_name'}"></span>
+                        </div>
+                        </th>
+                        <th><div class="th">
+                            Sales
+                        <span class="glyphicon glyphicon-chevron-up"
+                              data-ng-click=" order('Sales_name')"
+                              data-ng-class="{active: row == 'Sales_name'}"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                              data-ng-click=" order('-Sales_name')"
+                              data-ng-class="{active: row == '-Sales_name'}"></span>
+                        </div>
+                        </th>
+                        <th><div class="th">
+                            JobDate
+                        <span class="glyphicon glyphicon-chevron-up"
+                              data-ng-click=" order('JobDescription_CreateDate')"
+                              data-ng-class="{active: row == 'JobDescription_CreateDate'}"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                              data-ng-click=" order('-JobDescription_CreateDate')"
+                              data-ng-class="{active: row == '-JobDescription_CreateDate'}"></span>
+                        </div>
+                        </th>
+                        <th><div class="th">
+                            JobID
+                        <span class="glyphicon glyphicon-chevron-up"
+                              data-ng-click=" order('JobDescription_sid')"
+                              data-ng-class="{active: row == 'JobDescription_sid'}"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                              data-ng-click=" order('-JobDescription_sid')"
+                              data-ng-class="{active: row == '-JobDescription_sid'}"></span>
+                        </div>
+                        </th>
+                        <th><div class="th">
+                            JobTitle
+                        <span class="glyphicon glyphicon-chevron-up"
+                              data-ng-click=" order('JobDescription_skill')"
+                              data-ng-class="{active: row == 'JobDescription_skill'}"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                              data-ng-click=" order('-JobDescription_skill')"
+                              data-ng-class="{active: row == '-JobDescription_skill'}"></span>
+                        </div>
+                        </th>
+                        <th><div class="th">
+                            No_Found
+                        </div>
+                        </th>
+                        <th><div class="th">
+                            No_New
+                        <span class="glyphicon glyphicon-chevron-up"
+                              data-ng-click=" order('jobs')"
+                              data-ng-class="{active: row == 'jobs'}"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                              data-ng-click=" order('-jobs')"
+                              data-ng-class="{active: row == '-jobs'}"></span>
+                        </div>
+                        </th>
+                        <th><div class="th">
+                            No_SubmitToSales
+                        <span class="glyphicon glyphicon-chevron-up"
+                              data-ng-click=" order('jobs')"
+                              data-ng-class="{active: row == 'jobs'}"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                              data-ng-click=" order('-jobs')"
+                              data-ng-class="{active: row == '-jobs'}"></span>
+                        </div>
+                        </th>
+                        <th><div class="th">
+                            No_SubmitToClient
+                        <span class="glyphicon glyphicon-chevron-up"
+                              data-ng-click=" order('jobs')"
+                              data-ng-class="{active: row == 'jobs'}"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                              data-ng-click=" order('-jobs')"
+                              data-ng-class="{active: row == '-jobs'}"></span>
+                        </div>
+                        </th>
+                        <th><div class="th">
+                            No_Rejected
+                        <span class="glyphicon glyphicon-chevron-up"
+                              data-ng-click=" order('jobs')"
+                              data-ng-class="{active: row == 'jobs'}"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                              data-ng-click=" order('-jobs')"
+                              data-ng-class="{active: row == '-jobs'}"></span>
+                        </div>
+                        </th>
+                        <th><div class="th">
+                            No_Inactive
+                        <span class="glyphicon glyphicon-chevron-up"
+                              data-ng-click=" order('jobs')"
+                              data-ng-class="{active: row == 'jobs'}"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                              data-ng-click=" order('-jobs')"
+                              data-ng-class="{active: row == '-jobs'}"></span>
+                        </div>
+                        </th>
+                        <th><div class="th">
+                            No_Selected
+                        <span class="glyphicon glyphicon-chevron-up"
+                              data-ng-click=" order('jobs')"
+                              data-ng-class="{active: row == 'jobs'}"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                              data-ng-click=" order('-jobs')"
+                              data-ng-class="{active: row == '-jobs'}"></span>
+                        </div>
+                        </th>
+
+                        <th><div class="th">
+                            No_Closed
+                        <span class="glyphicon glyphicon-chevron-up"
+                              data-ng-click=" order('jobs')"
+                              data-ng-class="{active: row == 'jobs'}"></span>
+                        <span class="glyphicon glyphicon-chevron-down"
+                              data-ng-click=" order('-jobs')"
+                              data-ng-class="{active: row == '-jobs'}"></span>
+                        </div>
+                        </th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-ng-repeat="singleData in currentPageData">
+                        <td>{{singleData.AssignedTo_name}}</td>
+                        <td>{{singleData.Sales_name}}</td>
+                        <td>{{singleData.JobDescription_CreateDate| date:'MM/dd/yyyy'}}</td>
+                        <td>{{singleData.JobDescription_sid}}</td>
+                        <td>{{singleData.JobDescription_skill}}</td>
+                        <td>{{singleData.No_Found}}</td>
+                        <td>{{singleData.No_New}}</td>
+                        <td>{{singleData.No_SubmitToSales}}</td>
+                        <td>{{singleData.No_SubmitToClient}}</td>
+                        <td>{{singleData.No_Rejected}}</td>
+                        <td>{{singleData.No_Inactive}}</td>
+                        <td>{{singleData.No_Selected}}</td>
+                        <td>{{singleData.No_Closed}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <footer class="table-footer" ng-show="!no_result_found">
+                    <div class="row">
+                        <div class="col-md-6 page-num-info">
+                            <span>
+                                Show 
+                                <select data-ng-model="numPerPage"
+                                        data-ng-options="num for num in numPerPageOpt"
+                                        data-ng-change="onNumPerPageChange()">
+                                </select> 
+                                entries per page
+                            </span>
+                        </div>
+                        <div class="col-md-6 text-right pagination-container">
+                            <pagination class="pagination-sm"
+                                        page="currentPage"
+                                        total-items="filteredData.length"
+                                        max-size="4"
+                                        on-select-page="select(page)"
+                                        items-per-page="numPerPage"
+                                        rotate="false"
+                                        boundary-links="true"></pagination>
+                        </div>
+                    </div>
+                </footer>
+
+            </div>
+        </div>
+
+        <div class="table-filters" ng-show="no_result_found" style="font-size: 15px;">
+            <span data-i18n="This report does not return any data."></span>
+        </div>
+
+        <div class="page-loading" ng-show="page_ishow">
+            <img alt="Please Wait..." data-ng-src="images/loading.gif">
+        </div>
+    </section>
+</div>
